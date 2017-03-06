@@ -11,6 +11,12 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+ALIASES_FILE='.aliases'
+
+if [[ -a $ALIASES_FILE ]]; then
+	source $ALIASES_FILE
+fi
+
 #
 # PATH assertions
 export GOPATH=$HOME/workspace/go

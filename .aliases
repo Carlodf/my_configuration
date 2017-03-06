@@ -1,0 +1,4 @@
+# aliases
+alias ls='ls --color=auto'
+
+alias mutt='mutt -F .config/muttrc'
