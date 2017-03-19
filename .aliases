@@ -1,4 +1,9 @@
 # aliases
 alias ls='ls --color=auto'
-
-alias mutt='mutt -F .config/muttrc'
+alias mutt='mutt -F $HOME/.config/muttrc'
+# pretty print of git logs
+alias glog='git log --graph --decorate --oneline'
+# print all explicily installed packages witn name,
+# version and description (first 3 lines of output)j
+alias pacman_report='pacman -Qqei | grep "Name" -A2 | less'
+alias yaourt_report='yaourt -Qmi | grep "Name" -A2 |less'

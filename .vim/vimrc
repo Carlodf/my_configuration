@@ -13,6 +13,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ervandew/supertab'
 Plugin 'fatih/vim-go'
+Plugin 'tpope/vim-surround'
 "Plugin 'SirVer/ultisnips'
 
 " All of your Plugins must be added before the following line
@@ -58,6 +59,17 @@ set directory=~/.vim/swp/
 " show diff in vertical split and use filler for deleted lines
 set diffopt=filler,vertical
 set visualbell
+set pastetoggle=<F2>
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
 
 " Set folding based on marker for vim files
 augroup vim_file_group
@@ -132,10 +144,10 @@ nnoremap [15~ :GundoToggle<cr>
 " Appareance --------------------------------------------------------------{{{1
 
 syntax enable
-"colorscheme badwolf
+colorscheme badwolf
 
 " Highlight columns 80 and 120
-highlight ColorColumn ctermbg=7
+highlight ColorColumn ctermbg=0
 let &colorcolumn="80,".join(range(120,120),",")
 
 " show diffs in verticall splits and fill empty lines
