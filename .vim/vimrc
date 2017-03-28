@@ -13,6 +13,8 @@ filetype plugin indent on    " required
 "Plugins {{{2
 Plugin 'VundleVim/Vundle.vim' "plugin manager
 Plugin 'tpope/vim-fugitive' "wrapper for git
+Plugin 'Valloric/YouCompleteMe' "code completion
+Plugin 'fatih/vim-go' "golang ide
 
 let $MYVIMRC='~/.vim/vimrc'
 
@@ -45,8 +47,13 @@ set noexpandtab
 
 
 " VISUALIZATION SETTINGS {{{1
+
 set background=dark
+
 syntax enable
+
+colorscheme badwolf
+
 " automatically sets the current window to fully expand to
 " all the space available if in a split
 " set winheight=9999
@@ -86,6 +93,8 @@ nnoremap <c-h> <c-w><c-h>
 nnoremap <c-l> <c-w><c-l>
 nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
+nnoremap <leader>ssv <c-w>t<c-w>H
+nnoremap <leader>sso <c-w>t<c-w>K
 
 
 " AUTOCOMANDS {{{1
@@ -98,13 +107,31 @@ augroup END
 
 " FUNCTIONS {{{1
 
-" Visualize html as formatted text
-"function! OpenInBrowser(url)
-"    if !empty(a:url)
-"	echo 'opening: ' . a:url
-"	execute '!w3m ' . a:url
-"	echo 'done!'
-"    endif
-"endfunction
-"
-"nnoremap <leader>gw "zyiW:call OpenInBrowser(@z)<CR>
+" Opens url in w3m
+function! OpenInBrowser(url)
+    if !empty(a:url)
+	echo 'opening: ' . a:url
+	execute '!w3m ' . a:url
+	echo 'done!'
+    endif
+endfunction
+
+" Open prowser with url under cursor
+nnoremap <leader>gw "zyiW:call OpenInBrowser(@z)<CR>
+
+
+" Toggle Windows to max height
+function! ToggleFullscreenWindows()
+    if &winheight == 1
+	let &winheight=9999
+	let &winminheight=0
+	set noequalalways
+    else
+	let &winheight=1 
+	let &winminheight=0
+	set equalalways
+    endif
+endfunction 
+
+" Toggle Windows to max height
+nnoremap <leader>tf :call ToggleFullscreenWindows()<CR>
