@@ -15,6 +15,7 @@ Plugin 'VundleVim/Vundle.vim' "plugin manager
 Plugin 'tpope/vim-fugitive' "wrapper for git
 Plugin 'Valloric/YouCompleteMe' "code completion
 Plugin 'fatih/vim-go' "golang ide
+Plugin 'tpope/vim-vinegar' "files browsing
 
 let $MYVIMRC='~/.vim/vimrc'
 
@@ -31,6 +32,8 @@ set showcmd
 " Display the match for a search pattern when halfway
 " typing it.
 set incsearch
+" highlight search results
+set hlsearch
 " maximum number of changes that can be undone
 set ul=1000
 " automatically save and restore undo history
@@ -44,6 +47,13 @@ set tabstop=8
 set softtabstop=4
 set shiftwidth=4
 set noexpandtab
+
+" highlight cursor line
+set cursorline
+
+" capital K will open vim help instead of shell man
+" for the word under the cursor
+set keywordprg=:help
 
 
 " VISUALIZATION SETTINGS {{{1
@@ -60,7 +70,7 @@ colorscheme badwolf
 " set winwidth=9999
 
 " Highlight columns 80 and 120
-highlight ColorColumn ctermbg=150
+" highlight ColorColumn ctermbg=150
 let &colorcolumn="80,".join(range(120,120),",")
 
 
@@ -75,10 +85,6 @@ nnoremap <leader>sv :source $MYVIMRC <cr>
 " Mapping to train
 inoremap jk <esc>
 inoremap <esc> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
@@ -88,36 +94,34 @@ nnoremap OB <nop>
 nnoremap OC <nop>
 nnoremap OD <nop>
 
+" clear search highlight
+nnoremap <silent> <leader>/ :nohlsearch <cr>
+
 " easier mappings for moving within splits
 nnoremap <c-h> <c-w><c-h>
 nnoremap <c-l> <c-w><c-l>
 nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
+" switch split vertical
 nnoremap <leader>ssv <c-w>t<c-w>H
+" switch split orizontal
 nnoremap <leader>sso <c-w>t<c-w>K
 
-
+"" Open browser with url under cursor
+nnoremap <leader>gw :!w3m '<cWORD>' .<CR>
+"
+"
 " AUTOCOMANDS {{{1
 
-" Vim File commands {{{2
 augroup vimfile
     autocmd!
     :au FileType vim set foldmethod=marker
 augroup END
 
+
 " FUNCTIONS {{{1
 
-" Opens url in w3m
-function! OpenInBrowser(url)
-    if !empty(a:url)
-	echo 'opening: ' . a:url
-	execute '!w3m ' . a:url
-	echo 'done!'
-    endif
-endfunction
-
-" Open prowser with url under cursor
-nnoremap <leader>gw "zyiW:call OpenInBrowser(@z)<CR>
+" https://www.google.com
 
 
 " Toggle Windows to max height
@@ -135,3 +139,37 @@ endfunction
 
 " Toggle Windows to max height
 nnoremap <leader>tf :call ToggleFullscreenWindows()<CR>
+
+" Auto toggle paste
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+
+function! Breaker()
+    let s:search_history=@/
+    let s:l=line('.')
+    let s:c=col('.')
+    :execute 'normal! %v%' . "\<Esc>"
+    let s:l_pos = getpos('<')
+    let s:r_pos = getpos('>')
+    :echo(s:r_pos)
+    :echo(s:l_pos)
+    let @/=s:search_history
+    :call cursor(s:l, s:c)
+endfunction
+
+function! PpxBrakeToggle(type)
+    if a:type ==# 'char'
+	normal! `[v`]y
+    else
+	return
+    endif
+    echom(@@)
+endfunction
+
+nnoremap <leader>bd :set operatorfunc=PpxBrakeToggle<cr>g@
