@@ -55,6 +55,8 @@ set cursorline
 " for the word under the cursor
 set keywordprg=:help
 
+set diffopt=filler,vertical
+
 
 " VISUALIZATION SETTINGS {{{1
 
@@ -68,6 +70,9 @@ colorscheme badwolf
 " all the space available if in a split
 " set winheight=9999
 " set winwidth=9999
+
+set number
+set relativenumber
 
 " Highlight columns 80 and 120
 " highlight ColorColumn ctermbg=150
@@ -164,12 +169,36 @@ function! Breaker()
 endfunction
 
 function! PpxBrakeToggle(type)
+    let s:search_history=@/
+    let s:l=line('.')
+    let s:c=col('.')
     if a:type ==# 'char'
-	normal! `[v`]y
+	let [_, s:start_line, s:start_col, _] = getpos("'[")
+	let [_, s:end_line, s:end_col, _] = getpos("']")
+	echom string(s:start_line . " - " . s:start_col)
+	echom string(s:end_line . " - " . s:end_col)
+	if s:start_line == s:end_line
+	    echom("sameline")
+	    " take care of spaces after coma
+	    :execute s:start_line . ',' . s:end_line . 's/,\s\+/,/g'
+	    " split line on comas
+	    :execute s:start_line . ',' . s:end_line . 's/,/,\r/g'
+	    " take care of first element
+	    :call cursor(s:start_line, s:start_col)
+	    :execute 'normal i' . "\<cr>"
+	else
+	    echom("multiline")
+	endif
     else
-	return
+	return ""
     endif
-    echom(@@)
+    let @/=s:search_history
+    :call cursor(s:l, s:c)
+endfunction
+
+function! PpxStupidFunction()
+    let line = ["\" STI GRAN", "\" CAZZI"]
+    call setline(178,line)
 endfunction
 
 nnoremap <leader>bd :set operatorfunc=PpxBrakeToggle<cr>g@
