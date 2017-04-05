@@ -7,3 +7,5 @@ alias glog='git log --graph --decorate --oneline'
 # version and description (first 3 lines of output)j
 alias pacman_report='pacman -Qqei | grep "Name" -A2 | less'
 alias yaourt_report='yaourt -Qmi | grep "Name" -A2 |less'
+# open feh with auto fit to windows size
+alias img_view='feh --scale-down --auto-zoom'
