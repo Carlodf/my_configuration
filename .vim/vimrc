@@ -154,51 +154,5 @@ endfunction
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
-
-function! Breaker()
-    let s:search_history=@/
-    let s:l=line('.')
-    let s:c=col('.')
-    :execute 'normal! %v%' . "\<Esc>"
-    let s:l_pos = getpos('<')
-    let s:r_pos = getpos('>')
-    :echo(s:r_pos)
-    :echo(s:l_pos)
-    let @/=s:search_history
-    :call cursor(s:l, s:c)
-endfunction
-
-function! PpxBrakeToggle(type)
-    let s:search_history=@/
-    let s:l=line('.')
-    let s:c=col('.')
-    if a:type ==# 'char'
-	let [_, s:start_line, s:start_col, _] = getpos("'[")
-	let [_, s:end_line, s:end_col, _] = getpos("']")
-	echom string(s:start_line . " - " . s:start_col)
-	echom string(s:end_line . " - " . s:end_col)
-	if s:start_line == s:end_line
-	    echom("sameline")
-	    " take care of spaces after coma
-	    :execute s:start_line . ',' . s:end_line . 's/,\s\+/,/g'
-	    " split line on comas
-	    :execute s:start_line . ',' . s:end_line . 's/,/,\r/g'
-	    " take care of first element
-	    :call cursor(s:start_line, s:start_col)
-	    :execute 'normal i' . "\<cr>"
-	else
-	    echom("multiline")
-	endif
-    else
-	return ""
-    endif
-    let @/=s:search_history
-    :call cursor(s:l, s:c)
-endfunction
-
-function! PpxStupidFunction()
-    let line = ["\" STI GRAN", "\" CAZZI"]
-    call setline(178,line)
-endfunction
-
-nnoremap <leader>bd :set operatorfunc=PpxBrakeToggle<cr>g@
+" Source WIP wimscripts
+:so $HOME/workspace/vimscript/argument_refactor.vim
