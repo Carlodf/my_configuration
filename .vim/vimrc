@@ -1,4 +1,4 @@
-"Vundle {{{1
+" Vundle {{{1
 set nocompatible              " be iMproved, required
 filetype off                  " required
 " set the runtime path to include Vundle and initialize
@@ -6,85 +6,37 @@ set rtp+=~/.vim/bundle/Vundle.vim
 " calls vundle and set the root installation path for plugins
 call vundle#begin('~/.vim/bundles')
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-
 "Plugins {{{2
 Plugin 'VundleVim/Vundle.vim' "plugin manager
 Plugin 'tpope/vim-fugitive' "wrapper for git
 Plugin 'Valloric/YouCompleteMe' "code completion
 Plugin 'fatih/vim-go' "golang ide
 Plugin 'tpope/vim-vinegar' "files browsing
+"}}}2
 
-let $MYVIMRC='~/.vim/vimrc'
-
-
-" CONFIGURATIONS {{{1
-
-" Specifies when in insert mode backspace can be used
-set backspace=indent,eol,start
-" Always display the current cursor position in the lower
-" right corner
-set ruler
-" Display an incomplete command in the lower right corner
-set showcmd
-" Display the match for a search pattern when halfway
-" typing it.
-set incsearch
-" highlight search results
-set hlsearch
-" maximum number of changes that can be undone
-set ul=1000
-" automatically save and restore undo history
-set udf
-" list of directories for undo files
-set udir=~/.vim/undo/
-" Reset viminfo to default values except for filename
-set viminfo='100,<50,s10,h,n~/.vim/viminfo
-" Tabs settings
-set tabstop=8
-set softtabstop=4
-set shiftwidth=4
-set noexpandtab
-
-" highlight cursor line
-set cursorline
-
-" capital K will open vim help instead of shell man
-" for the word under the cursor
-set keywordprg=:help
-
-set diffopt=filler,vertical
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" }}}
 
 
-" VISUALIZATION SETTINGS {{{1
+" Configuration files {{{1
+let $MYVIMRC = $HOME . '/.vim/vimrc'
+let $PPXSET = $HOME . '/.vim/ppx/settings.vim'
+let $PPXTMP = $HOME . '/.vim/tmp'
 
-set background=dark
-
-syntax enable
-
-colorscheme badwolf
-
-" automatically sets the current window to fully expand to
-" all the space available if in a split
-" set winheight=9999
-" set winwidth=9999
-
-set number
-set relativenumber
-
-" Highlight columns 80 and 120
-" highlight ColorColumn ctermbg=150
-let &colorcolumn="80,".join(range(120,120),",")
+" SETTINGS
+source $PPXSET
+" }}}
 
 
 " MAPPINGS {{{1
 let mapleader="\\"
-let maplocalleader="_"
+let maplocalleader=","
 
-" fast operations on vimrc file
-nnoremap <leader>ev :vsplit $MYVIMRC <cr>
+" fast operations on configuration files
+nnoremap <leader>ev :sp $MYVIMRC <cr>
+nnoremap <leader>es :sp $PPXSET <cr>
 nnoremap <leader>sv :source $MYVIMRC <cr>
 
 " Mapping to train
@@ -114,8 +66,9 @@ nnoremap <leader>sso <c-w>t<c-w>K
 
 "" Open browser with url under cursor
 nnoremap <leader>gw :!w3m '<cWORD>' .<CR>
-"
-"
+" }}}
+
+
 " AUTOCOMANDS {{{1
 
 augroup vimfile
@@ -123,11 +76,36 @@ augroup vimfile
     :au FileType vim set foldmethod=marker
 augroup END
 
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+  augroup ppx
+    au!
+
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event handler
+    " (happens when dropping a file on gvim).
+    autocmd BufReadPost *
+      \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+
+  augroup END
+
+endif " has("autocmd")
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+" Revert with: ":delcommand DiffOrig".
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
+" }}}
+
 
 " FUNCTIONS {{{1
-
-" https://www.google.com
-
 
 " Toggle Windows to max height
 function! ToggleFullscreenWindows()
@@ -143,7 +121,7 @@ function! ToggleFullscreenWindows()
 endfunction 
 
 " Toggle Windows to max height
-nnoremap <leader>tf :call ToggleFullscreenWindows()<CR>
+nnoremap <silent> <leader>tf :call ToggleFullscreenWindows()<CR>
 
 " Auto toggle paste
 function! XTermPasteBegin()
@@ -153,6 +131,7 @@ function! XTermPasteBegin()
 endfunction
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+" }}}
 
-" Source WIP wimscripts
+" Source VIP wimscripts
 :so $HOME/workspace/vimscript/argument_refactor.vim
