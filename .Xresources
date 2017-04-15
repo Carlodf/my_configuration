@@ -10,10 +10,10 @@ Xft.dpi:       280
 
 Xcursor.theme: DMZ-White
 
-URxvt.font:                xft:Noto Mono:pixelsize=30:antialias=true
-URxvt.boldFont:            xft:Noto Mono:pixelsize=30:bold:antialias=true
-URxvt.italicFont:          xft:Noto Mono:pixelsize=30:italic:antialias=true
-URxvt.boldItalicFont:      xft:Noto Mono:pixelsize=30:bold:italic:antialias=true
+URxvt.font:                xft:Source Code Pro:pixelsize=32:antialias=true
+URxvt.boldFont:            xft:Source Code Pro:pixelsize=32:bold:antialias=true
+URxvt.italicFont:          xft:Source Code Pro:pixelsize=32:italic:antialias=true
+URxvt.boldItalicFont:      xft:Source Code Pro:pixelsize=32:bold:italic:antialias=true
 !URxvt.letterSpace: 	   -6
 
 URxvt.transparent: true
