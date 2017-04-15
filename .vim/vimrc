@@ -19,53 +19,20 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
 
+set encoding=utf-8
 
 " Configuration files {{{1
 let $MYVIMRC = $HOME . '/.vim/vimrc'
 let $PPXSET = $HOME . '/.vim/ppx/settings.vim'
+let $PPXFUN = $HOME . '/.vim/ppx/functions.vim'
+let $PPXMAP = $HOME . '/.vim/ppx/mappings.vim'
 let $PPXTMP = $HOME . '/.vim/tmp'
 
 " SETTINGS
 source $PPXSET
-" }}}
+" MAPPINGS
+source $PPXMAP
 
-
-" MAPPINGS {{{1
-let mapleader="\\"
-let maplocalleader=","
-
-" fast operations on configuration files
-nnoremap <leader>ev :sp $MYVIMRC <cr>
-nnoremap <leader>es :sp $PPXSET <cr>
-nnoremap <leader>sv :source $MYVIMRC <cr>
-
-" Mapping to train
-inoremap jk <esc>
-inoremap <esc> <nop>
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-nnoremap OA <nop>
-nnoremap OB <nop>
-nnoremap OC <nop>
-nnoremap OD <nop>
-
-" clear search highlight
-nnoremap <silent> <leader>/ :nohlsearch <cr>
-
-" easier mappings for moving within splits
-nnoremap <c-h> <c-w><c-h>
-nnoremap <c-l> <c-w><c-l>
-nnoremap <c-j> <c-w><c-j>
-nnoremap <c-k> <c-w><c-k>
-" switch split vertical
-nnoremap <leader>ssv <c-w>t<c-w>H
-" switch split orizontal
-nnoremap <leader>sso <c-w>t<c-w>K
-
-"" Open browser with url under cursor
-nnoremap <leader>gw :!w3m '<cWORD>' .<CR>
 " }}}
 
 
@@ -83,8 +50,7 @@ if has("autocmd")
     au!
 
     " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid or when inside an event handler
-    " (happens when dropping a file on gvim).
+    " Don't do it when the position is invalid
     autocmd BufReadPost *
       \ if line("'\"") >= 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
@@ -97,7 +63,6 @@ endif " has("autocmd")
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
-" Revert with: ":delcommand DiffOrig".
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
 		  \ | wincmd p | diffthis
@@ -123,14 +88,7 @@ endfunction
 " Toggle Windows to max height
 nnoremap <silent> <leader>tf :call ToggleFullscreenWindows()<CR>
 
-" Auto toggle paste
-function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ""
-endfunction
 
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 " }}}
 
 " Source VIP wimscripts
