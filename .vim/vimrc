@@ -30,6 +30,8 @@ let $PPXTMP = $HOME . '/.vim/tmp'
 
 " SETTINGS
 source $PPXSET
+" FUNTIONS
+source $PPXFUN
 " MAPPINGS
 source $PPXMAP
 
