@@ -1,42 +1,100 @@
-# Folder hooks
-folder-hook 'account.com.gmail.gotbletu' 'source ~/.mutt/account.com.gmail.carlodf'
-
-# Default account
-source ~/.mutt/account.com.gmail.carlodf
-
-# Macros for switching accounts
-
-macro index <F12> '<sync-mailbox><enter-command>source ~/.mutt/account.com.gmail.carlodf<enter><change-folder>!<enter>'
+# IMAP: offlineimap
+set folder = "~/.mail/gmail.com"
+source ~/.mutt/mailboxes
+set spoolfile = "+/INBOX"
+set record = "+/sent"
+set postponed = "+/drafts"
 
 # Set default text editor
 set editor = "$EDITOR"
 
 #-------- Basic Config {{{
 #------------------------------------------------------
-set ssl_starttls = yes
-set ssl_force_tls = yes
-set imap_check_subscribed
-# set hostname = gmail.com
-set mail_check = 120
-set timeout = 300
-set imap_keepalive = 300
-# set record = "+[GMail]/Sent Mail"
-set move = no
-set include
-set sort = 'threads'
-set sort_aux = 'reverse-last-date-received'
-set auto_tag = yes
-set my_name="Pappix"
-ignore "Authentication-Results:"
-ignore "DomainKey-Signature:"
-ignore "DKIM-Signature:"
-hdr_order Date From To Cc
-alternative_order text/plain text/html *
-auto_view text/html
-bind editor <Tab> complete-query
-bind editor ^T complete
-bind editor <space> noop
-# }}}
+
+set date_format = "%d/%m"
+set index_format = "[%Z]  %D  %-20.20F  %s"
+set sort = threads                         # like gmail
+set sort_aux = reverse-last-date-received  # like gmail
+set uncollapse_jump                        # don't collapse on an unread message
+set sort_re                                # thread based on regex
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+
+
+#-------- Key bindings {{{
+#------------------------------------------------------
+
+# Index Key Bindings ---------------------------------
+bind index gg       first-entry
+bind index G        last-entry
+
+bind index R        group-reply
+bind index <tab>    sync-mailbox
+bind index <space>  collapse-thread
+
+# Ctrl-R to mark all sd read --------------------------
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+
+# Sync email ------------------------------------------
+macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
+macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
+
+# Saner copy/move dialogs -----------------------------
+macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+
+#-------- Side bar navigation {{{
+#------------------------------------------------------
+bind index,pager <down>   sidebar-next
+bind index,pager <up>     sidebar-prev
+bind index,pager <right>  sidebar-open
+
+
+
+#-------- Pager view Options {{{
+#------------------------------------------------------
+set pager_index_lines = 10 # number of index lines to show
+set pager_context = 3      # number of context lines to show
+set pager_stop             # don't go to next message automatically
+set menu_scroll            # scroll in menus
+set tilde                  # show tildes like in vim
+unset markers              # no ugly plus signs
+
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/plain text/enriched text/html
+
+# Pager Key Bindings ---------------------------------
+bind pager k  previous-line
+bind pager j  next-line
+bind pager gg top
+bind pager G  bottom
+
+bind pager R  group-reply
+
+# View attachments properly.
+# View attachments properly ---------------------------
+bind attach <return> view-mailcap
+
+# Compose View Options --------------------------------
+set realname = "Carlo Di Ferrante"          # who am i?
+set from = "carlodf@gmail.com"                   # which from?
+set sendmail = "/usr/bin/msmtp -a carlodf"
+set sendmail_wait = 0
+unset record
+set use_from = yes
+set sig_dashes                       # dashes before sig
+set edit_headers                     # show headers when composing
+set fast_reply                       # skip to compose when replying
+set askcc                            # ask for CC:
+set fcc_attach                       # save attachments with the body
+unset mime_forward                   # forward attachments as part of body
+set forward_format = "Fwd: %s"       # format of subject when forwarding
+set forward_decode                   # decode when forwarding
+set attribution = "On %d, %n wrote:" # format of quoting header
+set reply_to                         # reply to Reply to: field
+set reverse_name                     # reply as whomever it was to
+set include                          # include message in replies
+set forward_quote                    # include message in forwards
+#
 #-------- Color Theme {{{
 #------------------------------------------------------
 
@@ -65,8 +123,8 @@ color index     yellow default  '~N'
 color index     brightred       default '~F'    # Flagged Messages are important!
 color index     blue default    '~D'            # Deleted Mails - use dark color as these are already "dealt with"
 # }}}
-#
-# }}}
+
+
 # ---------- HTML Rendering {{{
 # open in gui browser: hit "v" then go down to text/html then hit "m"
 bind attach <return> view-mailcap
@@ -77,15 +135,11 @@ alternative_order text/plain text/enriched text/html     # list html for last
 mailboxes "+-- My mailbox -----------"
 set sidebar_visible = yes
 set sidebar_width = 25
-#set sidebar_sort = desc
-#set sidebar_delim = '|'
 color sidebar_new yellow default
 
 bind index,pager \CP sidebar-prev
 bind index,pager \CN sidebar-next
 bind index,pager \CO sidebar-open
-#bind index,pager \CU sidebar-scroll-up
-#bind index,pager \CD sidebar-scroll-down
 
 # macro index,pager b '<enter-command>toggle sidebar_visible<enter>'
 macro index b '<enter-command>toggle sidebar_visible<enter><refresh>'

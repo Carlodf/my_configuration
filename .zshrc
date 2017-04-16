@@ -24,3 +24,4 @@ export PATH=$PATH:$HOME/workspace/go/bin:$HOME/commands/
 export EDITOR=vim
 export BROWSER=chromium
 export BROWSERCLI=w3m
+export GNUPGHOME=$HOME/gpg
