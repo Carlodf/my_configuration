@@ -7,7 +7,7 @@ pythonfile = ~/.mutt/offlineimap.py
 [Account Gmail]
 localrepository = Gmail-Local
 remoterepository = Gmail-Remote
-status_backend = sqlite
+#status_backend = sqlite
 postsynchook = notmuch new
 
 [Repository Gmail-Local]
