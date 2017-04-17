@@ -102,6 +102,11 @@ if has('syntax')
     set cursorline                      " higlight cursor line
 endif
 
+" Airline plugin settings
+
+let g:airline_theme= 'wombat'
+let g:airline_powerline_fonts = 1
+
 " }}}
 
 

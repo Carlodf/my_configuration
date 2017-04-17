@@ -12,6 +12,8 @@ Plugin 'tpope/vim-fugitive' "wrapper for git
 Plugin 'Valloric/YouCompleteMe' "code completion
 Plugin 'fatih/vim-go' "golang ide
 Plugin 'tpope/vim-vinegar' "files browsing
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 "}}}2
 
 " All of your Plugins must be added before the following line
@@ -48,30 +50,30 @@ augroup END
 augroup markdown_settings
     autocmd!
     :au FileType markdown set wrap | set textwidth=80 | set spell |
-        \set spelllang=en_gb | set formatoptions=tan
+                \set spelllang=en_gb | set formatoptions=tan
 augroup END
 
 
 augroup mail_settings
     autocmd!
     :au FileType mail set wrap | set textwidth=80 | set spell |
-        \set spelllang=en_gb | set formatoptions=tan
+                \set spelllang=en_gb | set formatoptions=tan
 augroup END
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
-  augroup ppx
-    au!
+    augroup ppx
+        au!
 
-    " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid
-    autocmd BufReadPost *
-      \ if line("'\"") >= 1 && line("'\"") <= line("$") |
-      \   exe "normal! g`\"" |
-      \ endif
+        " When editing a file, always jump to the last known cursor position.
+        " Don't do it when the position is invalid
+        autocmd BufReadPost *
+                    \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+                    \   exe "normal! g`\"" |
+                    \ endif
 
-  augroup END
+    augroup END
 
 endif " has("autocmd")
 
@@ -79,8 +81,8 @@ endif " has("autocmd")
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+                \ | wincmd p | diffthis
 endif
 " }}}
 
@@ -90,15 +92,15 @@ endif
 " Toggle Windows to max height
 function! ToggleFullscreenWindows()
     if &winheight == 1
-	let &winheight=9999
-	let &winminheight=0
-	set noequalalways
+        let &winheight=9999
+        let &winminheight=0
+        set noequalalways
     else
-	let &winheight=1 
-	let &winminheight=0
-	set equalalways
+        let &winheight=1
+        let &winminheight=0
+        set equalalways
     endif
-endfunction 
+endfunction
 
 " Toggle Windows to max height
 nnoremap <silent> <leader>tf :call ToggleFullscreenWindows()<CR>
