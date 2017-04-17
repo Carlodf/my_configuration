@@ -45,6 +45,19 @@ augroup vimfile
     :au FileType vim set foldmethod=marker
 augroup END
 
+augroup markdown_settings
+    autocmd!
+    :au FileType markdown set wrap | set textwidth=80 | set spell |
+        \set spelllang=en_gb | set formatoptions=tan
+augroup END
+
+
+augroup mail_settings
+    autocmd!
+    :au FileType mail set wrap | set textwidth=80 | set spell |
+        \set spelllang=en_gb | set formatoptions=tan
+augroup END
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
