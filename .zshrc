@@ -33,4 +33,4 @@ PROMPT='%B%F{cyan}%n@%m%# %b%1/: %f'
 # git info on right prompt
 setopt prompt_subst
 . ~/.config/git-prompt.sh
-export RPROMPT=$'%B%F{yellow}[$(__git_ps1 "%s")]%f%b'
+RPROMPT=$'%B%F{yellow}[$(__git_ps1 "%s")]%f%b'
