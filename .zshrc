@@ -29,7 +29,8 @@ export GNUPGHOME=$HOME/gpg
 
 source $PPXDOTS/git-prompt.sh
 
+PROMPT='%B%F{cyan}%n@%m%# %b%1/: %f'
 # git info on right prompt
 setopt prompt_subst
 . ~/.config/git-prompt.sh
-export RPROMPT=$'$(__git_ps1 "%s")'
+export RPROMPT=$'%F{white}$(__git_ps1 "%s")%f'
