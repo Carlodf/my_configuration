@@ -2,6 +2,7 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=10000
+PPXDOTS=~/.config
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -25,3 +26,10 @@ export EDITOR=vim
 export BROWSER=chromium
 export BROWSERCLI=w3m
 export GNUPGHOME=$HOME/gpg
+
+source $PPXDOTS/git-prompt.sh
+
+# git info on right prompt
+setopt prompt_subst
+. ~/.config/git-prompt.sh
+export RPROMPT=$'$(__git_ps1 "%s")'
