@@ -50,14 +50,14 @@ augroup END
 augroup markdown_settings
     autocmd!
     :au FileType markdown set wrap | set textwidth=80 | set spell |
-                \set spelllang=en_gb | set formatoptions=tan
+                \set spelllang=en_gb | set formatoptions=tn
 augroup END
 
 
 augroup mail_settings
     autocmd!
     :au FileType mail set wrap | set textwidth=80 | set spell |
-                \set spelllang=en_gb | set formatoptions=tan
+                \set spelllang=en_gb | set formatoptions=tn
 augroup END
 
 " Only do this part when compiled with support for autocommands.
