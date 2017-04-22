@@ -57,7 +57,7 @@ export GNUPGHOME=$HOME/gpg
 
 source $PPXDOTS/git-prompt.sh
 
-PROMPT='%B%F{cyan}> %b%1/%#>${vim_mode}%f '
+PROMPT='%B%F{cyan}|%1/%#>%b${vim_mode}%f '
 # git info on right prompt
 setopt prompt_subst
 . ~/.config/git-prompt.sh

@@ -1,5 +1,6 @@
 # aliases
 alias ls='ls --color=auto'
+alias ll='ls -lh'
 alias mutt='mutt -F $HOME/.config/muttrc'
 # pretty print of git logs
 alias glog='git log --graph --decorate --oneline'
