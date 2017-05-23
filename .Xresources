@@ -4,16 +4,16 @@ Xft.antialias: true
 Xft.hinting:   true
 Xft.rgba:      rgb
 Xft.hintstyle: hintfull
-Xft.dpi:       280
+Xft.dpi:       180
 ! }}}
 
 
 Xcursor.theme: DMZ-White
 
-URxvt.font:                xft:Source Code Pro:pixelsize=32:antialias=true
-URxvt.boldFont:            xft:Source Code Pro:pixelsize=32:bold:antialias=true
-URxvt.italicFont:          xft:Source Code Pro:pixelsize=32:italic:antialias=true
-URxvt.boldItalicFont:      xft:Source Code Pro:pixelsize=32:bold:italic:antialias=true
+URxvt.font:                xft:Source Code Pro:pixelsize=28:antialias=true
+URxvt.boldFont:            xft:Source Code Pro:pixelsize=28:bold:antialias=true
+URxvt.italicFont:          xft:Source Code Pro:pixelsize=28:italic:antialias=true
+URxvt.boldItalicFont:      xft:Source Code Pro:pixelsize=28:bold:italic:antialias=true
 !URxvt.letterSpace: 	   -6
 
 URxvt.transparent: true
