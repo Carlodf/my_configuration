@@ -46,6 +46,18 @@ function TRAPINT() {
     return $(( 128 + $1 ))
 }
 
+# 10ms for key sequences
+#KEYTIMEOUT=3
+
+# Adding missing vim hotkeys
+bindkey -a u undo
+bindkey -a '^r' redo
+
+bindkey -M viins '^f' history-incremental-search-backward
+bindkey -M vicmd '^f' history-incremental-search-backward
+
+bindkey -M viins 'jk' vi-cmd-mode
+
 #
 # PATH assertions
 export GOPATH=$HOME/workspace/go
@@ -54,6 +66,7 @@ export EDITOR=vim
 export BROWSER=chromium
 export BROWSERCLI=w3m
 export GNUPGHOME=$HOME/gpg
+export XDG_CONFIG_HOME=$HOME/.config/
 
 source $PPXDOTS/git-prompt.sh
 

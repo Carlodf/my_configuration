@@ -37,3 +37,5 @@ nnoremap <leader>sso <c-w>t<c-w>K
 
 " Open browser with url under cursor
 nnoremap <leader>gw :!w3m '<cWORD>' .<CR>
+
+nnoremap <leader>r :!go run %<cr>
